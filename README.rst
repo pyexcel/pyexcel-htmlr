@@ -43,7 +43,6 @@ pyexcel developers can cherry pick the plugins for your needs.
 
 
 
-
 Installation
 ================================================================================
 You can install it via pip:

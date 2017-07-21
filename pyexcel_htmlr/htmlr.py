@@ -40,7 +40,6 @@ class HtmlTable(SheetReader):
                 yield element
 
     def column_iterator(self, row):
-        print self.__column_span
         index = 0
         for element in row.xpath(ALL_TABLE_COLUMNS):
             # generate '' due to previous rowspan
@@ -191,15 +190,6 @@ def _detect_int_value(csv_cell_text):
 
 
 def text_from_element(elem):
-    r"""
-    >>> x = lxml.html.fromstring('''<td><center><span style="display:none; speak:none" class="sortkey">01879-07-01-0000</span>
-    ...                             <span style="white-space:nowrap;">1 July 1879</span></center></td>''')
-    >>> text_from_element(x)
-    '1 July 1879'
-    >>> y = lxml.html.fromstring('''<td>a<br>b<br>c<br></td>''')
-    >>> text_from_element(y)
-    'a\nb\nc'
-    """  # flake8: noqa
     builder = []
     for x in elem.iter():
         if is_invisible_text(x):

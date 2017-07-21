@@ -1,10 +1,11 @@
 overrides: "pyexcel.yaml"
 name: "pyexcel-htmlr"
-nick_name: ""
+nick_name: "htmlr"
 version: "0.0.1"
 current_version: "0.0.1"
 release: "0.0.1"
 dependencies:
   - html5lib
   - lxml
+  - pyexcel>=0.5.1.1
 description: "read tables in html file as excel data"

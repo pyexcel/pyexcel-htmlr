@@ -42,6 +42,7 @@ CLASSIFIERS = [
 INSTALL_REQUIRES = [
     'html5lib',
     'lxml',
+    'pyexcel>=0.5.1.1',
 ]
 
 
