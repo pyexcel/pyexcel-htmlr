@@ -9,7 +9,6 @@ targets:
   - README.rst: README.rst
   - setup.py: setup.py
   - requirements.txt: requirements.txt
-  - LICENSE: NEW_BSD_LICENSE.jj2
   - MANIFEST.in: MANIFEST.in.jj2
   - "tests/requirements.txt": "tests/requirements.txt"
   - test.sh: test.script.jj2

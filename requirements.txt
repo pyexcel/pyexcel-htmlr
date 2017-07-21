@@ -1,1 +1,2 @@
-example_lib>=0.4.4
+html5lib
+lxml

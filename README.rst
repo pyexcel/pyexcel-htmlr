@@ -35,7 +35,12 @@ a little bit more time in coding, documentation and writing interesting posts.
 
 Introduction
 ================================================================================
-**pyexcel-htmlr** does Read html table into pyexcel data.
+**pyexcel-htmlr** does read tables in html file as excel data. It is inspared by `messytables'`_ html capability
+and brings pyexcel developers the html reading capability. In pyexcel family,
+pyexcel developers can cherry pick the plugins for your needs.
+
+.. _messytables': https://github.com/okfn/messytables
+
 
 
 

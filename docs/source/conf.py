@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 DESCRIPTION = (
-    'Read html table into pyexcel data' +
+    'read tables in html file as excel data' +
     ''
 )
 extensions = [
