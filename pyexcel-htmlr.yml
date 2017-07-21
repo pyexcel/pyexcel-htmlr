@@ -1,0 +1,9 @@
+overrides: "pyexcel.yaml"
+name: "pyexcel-htmlr"
+nick_name: ""
+version: "0.0.1"
+current_version: "0.0.1"
+release: "0.0.1"
+dependencies:
+  - example_lib>=0.4.4
+description: "Read html table into pyexcel data"
