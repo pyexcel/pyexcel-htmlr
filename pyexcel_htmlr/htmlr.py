@@ -6,6 +6,8 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd & its contributors
     :license: New BSD License
 """
+import re
+
 import html5lib
 import xml.etree.ElementTree as etree
 
@@ -186,7 +188,12 @@ def _detect_int_value(csv_cell_text):
     try:
         return int(csv_cell_text)
     except ValueError:
-        return None
+        pattern = '([0-9]+,)*[0-9]+$'
+        if re.match(pattern, csv_cell_text):
+            integer_string = csv_cell_text.replace(',', '')
+            return int(integer_string)
+        else:
+            return None
 
 
 def text_from_element(elem):
