@@ -6,7 +6,8 @@ import pyexcel as p
 def test_htmlr():
     sheet = p.Sheet([[1]])
     sheet2 = p.Sheet()
-    sheet2.html = sheet.html
+    x = sheet.html
+    sheet2.html = x
     assert sheet2[0, 0] == 1
 
 

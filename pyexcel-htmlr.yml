@@ -4,6 +4,7 @@ nick_name: "htmlr"
 version: "0.0.1"
 current_version: "0.0.1"
 release: "0.0.1"
+file_type: 'html'
 dependencies:
   - html5lib
   - lxml

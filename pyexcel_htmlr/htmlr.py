@@ -131,7 +131,7 @@ class HtmlPage(BookReader):
 
     def _parse_html(self, file_handler):
         root = fromstring(file_handler.read())
-        for index, table in enumerate(root.xpath('//table[not(@pyexcel)]'), 1):
+        for index, table in enumerate(root.xpath('//table'), 1):
             name = 'Table %s' % index
             yield NamedContent(name, table)
 
