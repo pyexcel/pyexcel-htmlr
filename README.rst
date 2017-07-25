@@ -213,7 +213,7 @@ You got to wrap the binary content with stream to get html working:
     >>> # In reality, you might deal with html file upload
     >>> # where you will read from requests.FILES['YOUR_HTML_FILE']
     >>> htmlfile = "your_file.html"
-    >>> with open(htmlfile, "rb") as f:
+    >>> with open(htmlfile, "r") as f:
     ...     content = f.read()
     ...     r = pe.get_book(file_type="html", file_content=content)
     ...     print(r)
