@@ -114,8 +114,7 @@ class HtmlPage(BookReader):
     def read_all(self):
         result = OrderedDict()
         for sheet in self._native_book:
-            sheet = HtmlTable(sheet, **self._keywords)
-            result[sheet.name] = sheet.to_array()
+            result.update(self.read_sheet(sheet))
         return result
 
     def read_sheet(self, native_sheet):
