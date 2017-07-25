@@ -6,7 +6,6 @@ configuration:
   - ".moban.d"
   configuration: pyexcel-htmlr.yml
 targets:
-  - README.rst: README.rst
   - setup.py: setup.py
   - requirements.txt: requirements.txt
   - MANIFEST.in: MANIFEST.in.jj2
