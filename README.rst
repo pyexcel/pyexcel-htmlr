@@ -14,9 +14,6 @@ pyexcel-htmlr - Let you focus on data, instead of html format
 .. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
    :target: https://gitter.im/pyexcel/Lobby
 
-.. image:: https://readthedocs.org/projects/pyexcel-htmlr/badge/?version=latest
-   :target: http://pyexcel-htmlr.readthedocs.org/en/latest/
-
 
 Known constraints
 ==================
