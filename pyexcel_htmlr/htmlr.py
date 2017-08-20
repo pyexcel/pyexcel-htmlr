@@ -1,5 +1,5 @@
 """
-    pyexcel_odsr.htmlr
+    pyexcel_htmlr.htmlr
     ~~~~~~~~~~~~~~~~~~~
     html table reader using messytables
 
