@@ -6,15 +6,13 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd & its contributors
     :license: New BSD License
 """
-import re
-
 import html5lib
 import xml.etree.ElementTree as etree
 
-import datetime
 from pyexcel_io.book import BookReader
 from pyexcel_io.sheet import SheetReader, NamedContent
 from pyexcel_io._compact import OrderedDict
+import pyexcel_io.service as service
 
 
 ALL_TABLE_COLUMNS = './/*[name()="td" or name()="th"]'
@@ -82,9 +80,9 @@ class HtmlTable(SheetReader):
     def __convert_cell(self, cell_text):
         ret = None
         if self.__auto_detect_int:
-            ret = _detect_int_value(cell_text)
+            ret = service.detect_int_value(cell_text)
         if ret is None and self.__auto_detect_float:
-            ret = _detect_float_value(cell_text)
+            ret = service.detect_float_value(cell_text)
             shall_we_ignore_the_conversion = (
                 (ret in [float('inf'), float('-inf')]) and
                 self.__ignore_infinity
@@ -92,7 +90,7 @@ class HtmlTable(SheetReader):
             if shall_we_ignore_the_conversion:
                 ret = None
         if ret is None and self.__auto_detect_datetime:
-            ret = _detect_date_value(cell_text)
+            ret = service.detect_date_value(cell_text)
         if ret is None:
             ret = cell_text
         return ret
@@ -143,58 +141,6 @@ def fromstring(s):
     tb = html5lib.getTreeBuilder("lxml", implementation=etree)
     p = html5lib.HTMLParser(tb, namespaceHTMLElements=False)
     return p.parse(s)
-
-
-def _detect_date_value(csv_cell_text):
-    """
-    Read the date formats that were written by csv.writer
-    """
-    ret = None
-    try:
-        if len(csv_cell_text) == 10:
-            ret = datetime.datetime.strptime(
-                csv_cell_text,
-                "%Y-%m-%d")
-            ret = ret.date()
-        elif len(csv_cell_text) == 19:
-            ret = datetime.datetime.strptime(
-                csv_cell_text,
-                "%Y-%m-%d %H:%M:%S")
-        elif len(csv_cell_text) > 19:
-            ret = datetime.datetime.strptime(
-                csv_cell_text[0:26],
-                "%Y-%m-%d %H:%M:%S.%f")
-    except ValueError:
-        pass
-    return ret
-
-
-def _detect_float_value(csv_cell_text):
-    try:
-        should_we_skip_it = (csv_cell_text.startswith('0') and
-                             csv_cell_text.startswith('0.') is False)
-        if should_we_skip_it:
-            # do not convert if a number starts with 0
-            # e.g. 014325
-            return None
-        else:
-            return float(csv_cell_text)
-    except ValueError:
-        return None
-
-
-def _detect_int_value(csv_cell_text):
-    if csv_cell_text.startswith('0') and len(csv_cell_text) > 1:
-        return None
-    try:
-        return int(csv_cell_text)
-    except ValueError:
-        pattern = '([0-9]+,)*[0-9]+$'
-        if re.match(pattern, csv_cell_text):
-            integer_string = csv_cell_text.replace(',', '')
-            return int(integer_string)
-        else:
-            return None
 
 
 def text_from_element(elem):
