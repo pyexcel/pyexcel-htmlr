@@ -10,7 +10,7 @@ PY26 = PY2 and sys.version_info[1] < 7
 
 NAME = 'pyexcel-htmlr'
 AUTHOR = 'C.W.'
-VERSION = '0.0.2'
+VERSION = '0.5.0'
 EMAIL = 'wangc_2011@hotmail.com'
 LICENSE = 'New BSD'
 DESCRIPTION = (
@@ -18,7 +18,7 @@ DESCRIPTION = (
     ''
 )
 URL = 'https://github.com/pyexcel/pyexcel-htmlr'
-DOWNLOAD_URL = '%s/archive/0.0.1.tar.gz' % URL
+DOWNLOAD_URL = '%s/archive/0.5.0.tar.gz' % URL
 FILES = ['README.rst', 'CHANGELOG.rst']
 KEYWORDS = [
     'python'
@@ -42,7 +42,7 @@ CLASSIFIERS = [
 INSTALL_REQUIRES = [
     'html5lib',
     'lxml',
-    'pyexcel>=0.5.1.1',
+    'pyexcel-io>=0.5.0',
 ]
 
 
