@@ -20,7 +20,8 @@ pyexcel developers can cherry pick the plugins for your needs.
 Installation
 -------------
 
-You can install it via pip:
+
+You can install pyexcel-htmlr via pip:
 
 .. code-block:: bash
 
