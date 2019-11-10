@@ -3,16 +3,27 @@ pyexcel-htmlr - Let you focus on data, instead of html format
 ================================================================================
 
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
-   :target: https://www.patreon.com/pyexcel
+   :target: https://www.patreon.com/chfw
 
-.. image:: https://api.travis-ci.org/pyexcel/pyexcel-htmlr.svg?branch=master
+.. image:: https://travis-ci.org/pyexcel/pyexcel-htmlr.svg?branch=master
    :target: http://travis-ci.org/pyexcel/pyexcel-htmlr
 
 .. image:: https://codecov.io/gh/pyexcel/pyexcel-htmlr/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pyexcel/pyexcel-htmlr
 
+.. image:: https://badge.fury.io/py/pyexcel-htmlr.svg
+   :target: https://pypi.org/project/pyexcel-htmlr
+
+
+.. image:: https://pepy.tech/badge/pyexcel-htmlr/month
+   :target: https://pepy.tech/project/pyexcel-htmlr/month
+
+
 .. image:: https://img.shields.io/gitter/room/gitterHQ/gitter.svg
    :target: https://gitter.im/pyexcel/Lobby
+
+.. image:: https://readthedocs.org/projects/pyexcel-htmlr/badge/?version=latest
+   :target: http://pyexcel-htmlr.readthedocs.org/en/latest/
 
 
 Known constraints
@@ -23,7 +34,8 @@ Fonts, colors and charts are not supported.
 Installation
 ================================================================================
 
-You can install it via pip:
+
+You can install pyexcel-htmlr via pip:
 
 .. code-block:: bash
 
@@ -42,12 +54,15 @@ Support the project
 ================================================================================
 
 If your company has embedded pyexcel and its components into a revenue generating
-product, please `support me on patreon <https://www.patreon.com/bePatron?u=5537627>`_ to
-maintain the project and develop it further.
+product, please support me on `github <https://github.com/sponsors/chfw>`_, `patreon <https://www.patreon.com/bePatron?u=5537627>`_
+or `bounty source <https://salt.bountysource.com/teams/chfw-pyexcel>`_ to maintain
+the project and develop it further.
 
-If you are an individual, you are welcome to support me too on patreon and for however long
-you feel like to. As a patreon, you will receive
+If you are an individual, you are welcome to support me too and for however long
+you feel like. As my backer, you will receive
 `early access to pyexcel related contents <https://www.patreon.com/pyexcel/posts>`_.
+
+And your issues will get prioritized if you would like to become my patreon as `pyexcel pro user`.
 
 With your financial support, I will be able to invest
 a little bit more time in coding, documentation and writing interesting posts.
@@ -64,7 +79,6 @@ As a standalone library
 
     >>> import os
     >>> import sys
-	>>> import pyexcel as pe
     >>> if sys.version_info[0] < 3:
     ...     from StringIO import StringIO
     ... else:
@@ -74,12 +88,7 @@ As a standalone library
     ...      from ordereddict import OrderedDict
     ... else:
     ...     from collections import OrderedDict
-    >>> 
-    >>> data = OrderedDict() # from collections import OrderedDict
-    >>> data.update({"Sheet 1": [[1, 2, 3], [4, 5, 6]]})
-    >>> data.update({"Sheet 2": [["row 1", "row 2", "row 3"]]})
-    >>> book = pe.get_book(bookdict=data)
-	>>> book.save_as("your_file.html")
+
 
 Read from an html file
 ********************************************************************************
@@ -92,7 +101,7 @@ Here's the sample code:
     >>> data = get_data("your_file.html")
     >>> import json
     >>> print(json.dumps(data))
-    {"Table 1": [[1, 2, 3], [4, 5, 6]], "Table 2": [["row 1", "row 2", "row 3"]]}
+    {"Sheet 1": [[1, 2, 3], [4, 5, 6]], "Sheet 2": [["row 1", "row 2", "row 3"]]}
 
 
 
@@ -107,10 +116,9 @@ Continue from previous example:
     >>> # This is just an illustration
     >>> # In reality, you might deal with html file upload
     >>> # where you will read from requests.FILES['YOUR_HTML_FILE']
-    >>> data = get_data(book.stream.html)
+    >>> data = get_data(io)
     >>> print(json.dumps(data))
-    {"Table 1": [[1, 2, 3], [4, 5, 6]], "Table 2": [["row 1", "row 2", "row 3"]]}
-
+    {"Sheet 1": [[1, 2, 3], [4, 5, 6]], "Sheet 2": [[7, 8, 9], [10, 11, 12]]}
 
 
 Pagination feature
@@ -133,7 +141,7 @@ Let's assume the following file is a huge html file:
    >>> sheetx = {
    ...     "huge": huge_data
    ... }
-   >>> pe.save_as(bookdict=sheetx, dest_file_name="huge_file.html")
+   >>> save_data("huge_file.html", sheetx)
 
 And let's pretend to read partial data:
 
@@ -141,7 +149,7 @@ And let's pretend to read partial data:
 
    >>> partial_data = get_data("huge_file.html", start_row=2, row_limit=3)
    >>> print(json.dumps(partial_data))
-   {"Table 1": [[3, 23, 33], [4, 24, 34], [5, 25, 35]]}
+   {"huge": [[3, 23, 33], [4, 24, 34], [5, 25, 35]]}
 
 And you could as well do the same for columns:
 
@@ -149,7 +157,7 @@ And you could as well do the same for columns:
 
    >>> partial_data = get_data("huge_file.html", start_column=1, column_limit=2)
    >>> print(json.dumps(partial_data))
-   {"Table 1": [[21, 31], [22, 32], [23, 33], [24, 34], [25, 35], [26, 36]]}
+   {"huge": [[21, 31], [22, 32], [23, 33], [24, 34], [25, 35], [26, 36]]}
 
 Obvious, you could do both at the same time:
 
@@ -159,7 +167,7 @@ Obvious, you could do both at the same time:
    ...     start_row=2, row_limit=3,
    ...     start_column=1, column_limit=2)
    >>> print(json.dumps(partial_data))
-   {"Table 1": [[23, 33], [24, 34], [25, 35]]}
+   {"huge": [[23, 33], [24, 34], [25, 35]]}
 
 .. testcode::
    :hide:
@@ -185,13 +193,13 @@ Here is the sample code:
     >>> import pyexcel as pe
     >>> sheet = pe.get_book(file_name="your_file.html")
     >>> sheet
-    Table 1:
+    Sheet 1:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+
     | 4 | 5 | 6 |
     +---+---+---+
-    Table 2:
+    Sheet 2:
     +-------+-------+-------+
     | row 1 | row 2 | row 3 |
     +-------+-------+-------+
@@ -209,19 +217,19 @@ You got to wrap the binary content with stream to get html working:
     >>> # This is just an illustration
     >>> # In reality, you might deal with html file upload
     >>> # where you will read from requests.FILES['YOUR_HTML_FILE']
-    >>> htmlfile = "your_file.html"
-    >>> with open(htmlfile, "r") as f:
+    >>> htmlfile = "another_file.html"
+    >>> with open(htmlfile, "rb") as f:
     ...     content = f.read()
     ...     r = pe.get_book(file_type="html", file_content=content)
     ...     print(r)
     ...
-    Table 1:
+    Sheet 1:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+
     | 4 | 5 | 6 |
     +---+---+---+
-    Table 2:
+    Sheet 2:
     +-------+-------+-------+
     | row 1 | row 2 | row 3 |
     +-------+-------+-------+
@@ -258,9 +266,9 @@ and update CHANGELOG.rst.
 .. note::
 
     As to rnd_requirements.txt, usually, it is created when a dependent
-	library is not released. Once the dependecy is installed
-	(will be released), the future
-	version of the dependency in the requirements.txt will be valid.
+    library is not released. Once the dependecy is installed
+    (will be released), the future
+    version of the dependency in the requirements.txt will be valid.
 
 
 How to test your contribution
@@ -282,7 +290,6 @@ How to update test environment and update documentation
 Additional steps are required:
 
 #. pip install moban
-#. git clone https://github.com/pyexcel/pyexcel-commons.git commons
 #. make your changes in `.moban.d` directory, then issue command `moban`
 
 What is pyexcel-commons
@@ -295,19 +302,10 @@ What is .moban.d
 
 `.moban.d` stores the specific meta data for the library.
 
-Acceptance criteria
--------------------
-
-#. Has Test cases written
-#. Has all code lines tested
-#. Passes all Travis CI builds
-#. Has fair amount of documentation if your change is complex
-#. Agree on NEW BSD License for your contribution
-
-
 
 .. testcode::
    :hide:
 
    >>> import os
    >>> os.unlink("your_file.html")
+   >>> os.unlink("another_file.html")

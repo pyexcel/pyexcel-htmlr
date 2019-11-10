@@ -35,4 +35,3 @@ or clone it and install it:
     $ git clone https://github.com/pyexcel/pyexcel-htmlr.git
     $ cd pyexcel-htmlr
     $ python setup.py install
-
