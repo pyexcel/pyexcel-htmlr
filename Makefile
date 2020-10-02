@@ -1,10 +1,16 @@
 all: test
 
-test:
+test: lint
 	bash test.sh
 
-document:
-	bash document.sh
+install_test:
+	pip install -r tests/requirements.txt
 
-spelling:
-	sphinx-build -b spelling docs/source/ docs/build/spelling
+lint:
+	bash lint.sh
+
+format:
+	bash format.sh
+
+git-diff-check:
+	git diff --exit-code
