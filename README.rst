@@ -91,6 +91,9 @@ As a standalone library
     ...      from ordereddict import OrderedDict
     ... else:
     ...     from collections import OrderedDict
+    >>> import pyexcel as pe
+    >>> book_data = {"Sheet 1": [[1, 2, 3], [4, 5, 6]], "Sheet 2": [["row 1", "row 2", "row 3"]]}
+    >>> pe.save_book_as(bookdict=book_data, dest_file_name="your_file.html")
 
 
 Read from an html file
@@ -104,7 +107,7 @@ Here's the sample code:
     >>> data = get_data("your_file.html")
     >>> import json
     >>> print(json.dumps(data))
-    {"Sheet 1": [[1, 2, 3], [4, 5, 6]], "Sheet 2": [["row 1", "row 2", "row 3"]]}
+    {"Table 1": [[1, 2, 3], [4, 5, 6]], "Table 2": [["row 1", "row 2", "row 3"]]}
 
 
 
@@ -123,7 +126,7 @@ Continue from previous example:
     ...    io = StringIO(html_file.read().encode())
     ...    data = get_data(io)
     >>> print(json.dumps(data))
-    {"Sheet 1": [[1, 2, 3], [4, 5, 6]], "Sheet 2": [[7, 8, 9], [10, 11, 12]]}
+    {"Table 1": [[1, 2, 3], [4, 5, 6]], "Table 2": [["row 1", "row 2", "row 3"]]}
 
 Pagination feature
 ********************************************************************************
@@ -143,7 +146,7 @@ Let's assume the following file is a huge html file:
    ...     [6, 26, 36]
    ... ]
    >>> sheetx = {
-   ...     "huge": huge_data
+   ...     "Table 1": huge_data
    ... }
    >>> pe.save_book_as(dest_file_name="huge_file.html", bookdict=sheetx)
 
@@ -153,7 +156,7 @@ And let's pretend to read partial data:
 
    >>> partial_data = get_data("huge_file.html", start_row=2, row_limit=3)
    >>> print(json.dumps(partial_data))
-   {"huge": [[3, 23, 33], [4, 24, 34], [5, 25, 35]]}
+   {"Table 1": [[3, 23, 33], [4, 24, 34], [5, 25, 35]]}
 
 And you could as well do the same for columns:
 
@@ -161,7 +164,7 @@ And you could as well do the same for columns:
 
    >>> partial_data = get_data("huge_file.html", start_column=1, column_limit=2)
    >>> print(json.dumps(partial_data))
-   {"huge": [[21, 31], [22, 32], [23, 33], [24, 34], [25, 35], [26, 36]]}
+   {"Table 1": [[21, 31], [22, 32], [23, 33], [24, 34], [25, 35], [26, 36]]}
 
 Obvious, you could do both at the same time:
 
@@ -171,7 +174,7 @@ Obvious, you could do both at the same time:
    ...     start_row=2, row_limit=3,
    ...     start_column=1, column_limit=2)
    >>> print(json.dumps(partial_data))
-   {"huge": [[23, 33], [24, 34], [25, 35]]}
+   {"Table 1": [[23, 33], [24, 34], [25, 35]]}
 
 .. testcode::
    :hide:
@@ -197,13 +200,13 @@ Here is the sample code:
     >>> import pyexcel as pe
     >>> sheet = pe.get_book(file_name="your_file.html")
     >>> sheet
-    Sheet 1:
+    Table 1:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+
     | 4 | 5 | 6 |
     +---+---+---+
-    Sheet 2:
+    Table 2:
     +-------+-------+-------+
     | row 1 | row 2 | row 3 |
     +-------+-------+-------+
@@ -227,13 +230,13 @@ You got to wrap the binary content with stream to get html working:
     ...     r = pe.get_book(file_type="html", file_content=content)
     ...     print(r)
     ...
-    Sheet 1:
+    Table 1:
     +---+---+---+
     | 1 | 2 | 3 |
     +---+---+---+
     | 4 | 5 | 6 |
     +---+---+---+
-    Sheet 2:
+    Table 2:
     +-------+-------+-------+
     | row 1 | row 2 | row 3 |
     +-------+-------+-------+
@@ -321,4 +324,3 @@ What is .moban.d
 
    >>> import os
    >>> os.unlink("your_file.html")
-   >>> os.unlink("another_file.html")
