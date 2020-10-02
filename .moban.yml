@@ -6,7 +6,7 @@ configuration:
   - ".moban.d"
   configuration: pyexcel-htmlr.yml
 targets:
-  - setup.py: setup.py
+  - setup.py: custom_setup.py.jj2
   - requirements.txt: requirements.txt
   - MANIFEST.in: MANIFEST.in.jj2
   - "tests/requirements.txt": "tests/requirements.txt"

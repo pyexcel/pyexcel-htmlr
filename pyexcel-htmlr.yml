@@ -8,5 +8,8 @@ file_type: 'html'
 dependencies:
   - html5lib
   - lxml
-  - pyexcel-io>=0.5.0
+  - pyexcel-io>=0.5.3
+test_dependencies:
+  - pyexcel-text
+  - pyexcel
 description: "read tables in html file as excel data"

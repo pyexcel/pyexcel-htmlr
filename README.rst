@@ -107,10 +107,11 @@ Continue from previous example:
     >>> # This is just an illustration
     >>> # In reality, you might deal with html file upload
     >>> # where you will read from requests.FILES['YOUR_HTML_FILE']
-    >>> data = get_data(book.stream.html)
+    >>> with open('your_file.html', 'r') as html_file:
+    ...    io = StringIO(html_file.read().encode())
+    ...    data = get_data(io)
     >>> print(json.dumps(data))
     {"Table 1": [[1, 2, 3], [4, 5, 6]], "Table 2": [["row 1", "row 2", "row 3"]]}
-
 
 
 Pagination feature
@@ -133,7 +134,7 @@ Let's assume the following file is a huge html file:
    >>> sheetx = {
    ...     "huge": huge_data
    ... }
-   >>> pe.save_as(bookdict=sheetx, dest_file_name="huge_file.html")
+   >>> pe.save_book_as(dest_file_name="huge_file.html", bookdict=sheetx)
 
 And let's pretend to read partial data:
 
@@ -210,7 +211,7 @@ You got to wrap the binary content with stream to get html working:
     >>> # In reality, you might deal with html file upload
     >>> # where you will read from requests.FILES['YOUR_HTML_FILE']
     >>> htmlfile = "your_file.html"
-    >>> with open(htmlfile, "r") as f:
+    >>> with open(htmlfile, "rb") as f:
     ...     content = f.read()
     ...     r = pe.get_book(file_type="html", file_content=content)
     ...     print(r)

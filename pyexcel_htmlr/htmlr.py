@@ -3,27 +3,29 @@
     ~~~~~~~~~~~~~~~~~~~
     html table reader using messytables
 
-    :copyright: (c) 2015-2017 by Onni Software Ltd & its contributors
+    :copyright: (c) 2015-2020 by Onni Software Ltd & its contributors
     :license: New BSD License
 """
 import html5lib
 import xml.etree.ElementTree as etree
 
-from pyexcel_io.book import BookReader
-from pyexcel_io.sheet import SheetReader, NamedContent
+import codecs
+from pyexcel_io.sheet import NamedContent
 from pyexcel_io._compact import OrderedDict
 import pyexcel_io.service as service
 
+from pyexcel_io.plugin_api.abstract_sheet import ISheet
+from pyexcel_io.plugin_api.abstract_reader import IReader
 
 ALL_TABLE_COLUMNS = './/*[name()="td" or name()="th"]'
 
 
-class HtmlTable(SheetReader):
+class HtmlTable(ISheet):
     def __init__(self, sheet, auto_detect_int=True,
                  auto_detect_float=True,
                  auto_detect_datetime=True,
                  **keywords):
-        SheetReader.__init__(self, sheet, **keywords)
+        self._native_sheet = sheet
         self.__auto_detect_int = auto_detect_int
         self.__auto_detect_float = auto_detect_float
         self.__auto_detect_datetime = auto_detect_datetime
@@ -96,45 +98,43 @@ class HtmlTable(SheetReader):
         return ret
 
 
-class HtmlPage(BookReader):
-    def __init__(self):
-        BookReader.__init__(self)
-        self._file_handle = None
+class HtmlPageInContent(IReader):
+    def __init__(self, file_content, file_type, **keywords):
+        self._keywords = keywords
+        self.content_array = list(HtmlPageInContent.parse_html(file_content))
 
-    def open(self, file_name, **keywords):
-        BookReader.open(self, file_name, **keywords)
-        self._load_from_file()
-
-    def open_stream(self, file_stream, **keywords):
-        BookReader.open_stream(self, file_stream, **keywords)
-        self._load_from_memory()
-
-    def read_all(self):
-        result = OrderedDict()
-        for sheet in self._native_book:
-            result.update(self.read_sheet(sheet))
-        return result
-
-    def read_sheet(self, native_sheet):
+    def read_sheet(self, native_sheet_index):
+        native_sheet = self.content_array[native_sheet_index]
         sheet = HtmlTable(native_sheet, **self._keywords)
-        return {sheet.name: sheet.to_array()}
+        return sheet
 
-    def _load_from_file(self):
-        self._file_handle = open(self._file_name, 'r')
-        self._native_book = self._parse_html(self._file_handle)
-
-    def _load_from_memory(self):
-        self._native_book = self._parse_html(self._file_stream)
-
-    def _parse_html(self, file_handler):
-        root = fromstring(file_handler.read())
+    @staticmethod
+    def parse_html(content):
+        root = fromstring(content)
         for index, table in enumerate(root.xpath('//table'), 1):
             name = 'Table %s' % index
             yield NamedContent(name, table)
 
     def close(self):
-        if self._file_handle:
-            self._file_handle.close()
+        pass
+
+
+class HtmlPageInStream(HtmlPageInContent):
+    def __init__(self, file_stream, file_type, **keywords):
+        file_stream.seek(0)
+        file_content = file_stream.read()
+        super().__init__(file_content, file_type, **keywords)
+
+
+class HtmlPageInFile(HtmlPageInContent):
+    def __init__(self, file_name, file_type, **keywords):
+        self.file_handle = codecs.open(file_name, 'r')
+        file_content = self.file_handle.read()
+        super().__init__(file_content, file_type, **keywords)
+
+    def close(self):
+        if self.file_handle:
+            self.file_handle.close()
 
 
 def fromstring(s):
