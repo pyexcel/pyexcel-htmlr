@@ -1,2 +1,2 @@
-__version__ = ''
-__author__ = ''
+__version__ = ""
+__author__ = ""

@@ -6,14 +6,12 @@
     :copyright: (c) 2015-2020 by Onni Software Ltd & its contributors
     :license: New BSD License
 """
-import html5lib
+import codecs
 import xml.etree.ElementTree as etree
 
-import codecs
-from pyexcel_io.sheet import NamedContent
-from pyexcel_io._compact import OrderedDict
+import html5lib
 import pyexcel_io.service as service
-
+from pyexcel_io.sheet import NamedContent
 from pyexcel_io.plugin_api.abstract_sheet import ISheet
 from pyexcel_io.plugin_api.abstract_reader import IReader
 
@@ -21,10 +19,14 @@ ALL_TABLE_COLUMNS = './/*[name()="td" or name()="th"]'
 
 
 class HtmlTable(ISheet):
-    def __init__(self, sheet, auto_detect_int=True,
-                 auto_detect_float=True,
-                 auto_detect_datetime=True,
-                 **keywords):
+    def __init__(
+        self,
+        sheet,
+        auto_detect_int=True,
+        auto_detect_float=True,
+        auto_detect_datetime=True,
+        **keywords
+    ):
         self._native_sheet = sheet
         self.__auto_detect_int = auto_detect_int
         self.__auto_detect_float = auto_detect_float
@@ -37,7 +39,7 @@ class HtmlTable(ISheet):
         return self._native_sheet.name
 
     def row_iterator(self):
-        for element in self._native_sheet.payload.xpath('.//tr'):
+        for element in self._native_sheet.payload.xpath(".//tr"):
             if self.__xml_table in element.xpath("./ancestor::table[1]"):
                 yield element
 
@@ -50,28 +52,28 @@ class HtmlTable(ISheet):
                 self.__column_span[index] -= 1
                 if self.__column_span[index] == 0:
                     del self.__column_span[index]
-                yield ''
+                yield ""
                 index += 1
 
             cell_text = text_from_element(element)
             yield self.__convert_cell(cell_text)
-            row_span = get_attribute('colspan', element)
-            col_span = get_attribute('rowspan', element)
+            row_span = get_attribute("colspan", element)
+            col_span = get_attribute("rowspan", element)
             if row_span > 1:
                 # generate '' due to colspan
                 if col_span > 1:
                     for offset in range(row_span):
                         if offset > 0:
                             # for next cell, give full col span
-                            self.__column_span[index+offset] = col_span
+                            self.__column_span[index + offset] = col_span
                         else:
                             # for current cell, give -1 because it has been
                             # yielded
-                            self.__column_span[index+offset] = col_span - 1
+                            self.__column_span[index + offset] = col_span - 1
                 else:
                     # no col span found, so just repeat in the same row
-                    for _ in range(row_span-1):
-                        yield ''
+                    for _ in range(row_span - 1):
+                        yield ""
                         index += 1
             else:
                 if col_span > 1:
@@ -86,9 +88,8 @@ class HtmlTable(ISheet):
         if ret is None and self.__auto_detect_float:
             ret = service.detect_float_value(cell_text)
             shall_we_ignore_the_conversion = (
-                (ret in [float('inf'), float('-inf')]) and
-                self.__ignore_infinity
-            )
+                ret in [float("inf"), float("-inf")]
+            ) and self.__ignore_infinity
             if shall_we_ignore_the_conversion:
                 ret = None
         if ret is None and self.__auto_detect_datetime:
@@ -111,8 +112,8 @@ class HtmlPageInContent(IReader):
     @staticmethod
     def parse_html(content):
         root = fromstring(content)
-        for index, table in enumerate(root.xpath('//table'), 1):
-            name = 'Table %s' % index
+        for index, table in enumerate(root.xpath("//table"), 1):
+            name = "Table %s" % index
             yield NamedContent(name, table)
 
     def close(self):
@@ -128,7 +129,7 @@ class HtmlPageInStream(HtmlPageInContent):
 
 class HtmlPageInFile(HtmlPageInContent):
     def __init__(self, file_name, file_type, **keywords):
-        self.file_handle = codecs.open(file_name, 'r')
+        self.file_handle = codecs.open(file_name, "r")
         file_content = self.file_handle.read()
         super().__init__(file_content, file_type, **keywords)
 
@@ -147,21 +148,21 @@ def text_from_element(elem):
     builder = []
     for x in elem.iter():
         if is_invisible_text(x):
-            cell_str = x.tail or ''  # handle None values.
+            cell_str = x.tail or ""  # handle None values.
         else:
-            cell_str = (x.text or '') + (x.tail or '')
-        cell_str = cell_str.replace('\n', ' ').strip()
-        if x.tag == 'br' or x.tag == 'p':
-            cell_str = '\n' + cell_str
+            cell_str = (x.text or "") + (x.tail or "")
+        cell_str = cell_str.replace("\n", " ").strip()
+        if x.tag == "br" or x.tag == "p":
+            cell_str = "\n" + cell_str
         builder.append(cell_str)
-    return ''.join(builder).strip()
+    return "".join(builder).strip()
 
 
 def is_invisible_text(elem):
     flag = False
     if elem.tag == "span":
-        if 'style' in elem.attrib:
-            if 'display:none' in elem.attrib['style']:
+        if "style" in elem.attrib:
+            if "display:none" in elem.attrib["style"]:
                 flag = True
 
     return flag
