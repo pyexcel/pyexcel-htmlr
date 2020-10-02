@@ -5,15 +5,28 @@
     :copyright: (c) 2015-2017 by Onni Software Ltd & its contributors
     :license: New BSD License
 """
-from ._version import __version__, __author__  # flake8: noqa
-from pyexcel_io.plugins import IOPluginInfoChain
-from pyexcel_io.io import get_data as read_data, isstream
+from pyexcel_io.io import get_data as read_data
+from pyexcel_io.io import isstream
+from pyexcel_io.plugins import IOPluginInfoChainV2
 
-__FILE_TYPE__ = 'html'
-IOPluginInfoChain(__name__).add_a_reader(
-    relative_plugin_class_path='htmlr.HtmlPage',
-    file_types=[__FILE_TYPE__],
-    stream_type='text'
+from ._version import __author__, __version__  # noqa
+
+__FILE_TYPE__ = "html"
+IOPluginInfoChainV2(__name__).add_a_reader(
+    relative_plugin_class_path="htmlr.HtmlPageInContent",
+    locations=["content"],
+    file_types=[__FILE_TYPE__, "htm"],
+    stream_type="text",
+).add_a_reader(
+    relative_plugin_class_path="htmlr.HtmlPageInStream",
+    locations=["memory"],
+    file_types=[__FILE_TYPE__, "htm"],
+    stream_type="text",
+).add_a_reader(
+    relative_plugin_class_path="htmlr.HtmlPageInFile",
+    locations=["file"],
+    file_types=[__FILE_TYPE__, "htm"],
+    stream_type="text",
 )
 
 

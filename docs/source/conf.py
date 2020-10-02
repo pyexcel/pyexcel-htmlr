@@ -23,9 +23,9 @@ DESCRIPTION = (
 
 project = 'pyexcel-htmlr'
 copyright = '2015-2019 Onni Software Ltd.'
-author = 'C.W.'
+author = 'chfw'
 # The short X.Y version
-version = '0.5.2'
+version = '0.6.0'
 # The full version, including alpha/beta/rc tags
 release = '0.5.2'
 
