@@ -11,9 +11,7 @@ import xml.etree.ElementTree as etree
 
 import html5lib
 import pyexcel_io.service as service
-from pyexcel_io.sheet import NamedContent
-from pyexcel_io.plugin_api.abstract_sheet import ISheet
-from pyexcel_io.plugin_api.abstract_reader import IReader
+from pyexcel_io.plugin_api import ISheet, IReader, NamedContent
 
 ALL_TABLE_COLUMNS = './/*[name()="td" or name()="th"]'
 
@@ -25,7 +23,6 @@ class HtmlTable(ISheet):
         auto_detect_int=True,
         auto_detect_float=True,
         auto_detect_datetime=True,
-        **keywords
     ):
         self._native_sheet = sheet
         self.__auto_detect_int = auto_detect_int
