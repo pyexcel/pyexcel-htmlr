@@ -10,3 +10,4 @@ targets:
   - .gitignore: gitignore.jj2
   - "docs/source/conf.py": "docs/source/conf.py.jj2"
   - "docs/source/index.rst": "index.rst.jj2"
+  - 'pyexcel_htmlr/_version.py': '_version.py.jj2'  
