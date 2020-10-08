@@ -15,3 +15,4 @@ test_dependencies:
 description: "read tables in html file as excel data"
 python_requires: ">=3.6"
 min_python_version: "3.6"
+moban_command: false
