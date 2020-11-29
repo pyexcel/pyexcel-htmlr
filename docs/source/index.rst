@@ -1,7 +1,7 @@
 `pyexcel-htmlr` - Let you focus on data, instead of file formats
 ================================================================================
 
-:Author: chfw
+:Author: C.W.
 :Source code: http://github.com/pyexcel/pyexcel-htmlr.git
 :Issues: http://github.com/pyexcel/pyexcel-htmlr/issues
 :License: New BSD License

@@ -6,7 +6,6 @@ targets:
   - requirements.txt: requirements.txt
   - MANIFEST.in: MANIFEST.in.jj2
   - "tests/requirements.txt": "tests/custom_requirements.txt.jj2"
-  - .travis.yml: custom_travis.yml.jj2
   - .gitignore: gitignore.jj2
   - "docs/source/conf.py": "docs/source/conf.py.jj2"
   - "docs/source/index.rst": "index.rst.jj2"
