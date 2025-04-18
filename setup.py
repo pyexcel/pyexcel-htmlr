@@ -40,7 +40,7 @@ DESCRIPTION = (
 )
 URL = "https://github.com/pyexcel/pyexcel-htmlr"
 DOWNLOAD_URL = "%s/archive/0.6.0.tar.gz" % URL
-FILES = ["README.rst", "CHANGELOG.rst"]
+FILES = ["README.rst", "CONTRIBUTORS.rst", "CHANGELOG.rst"]
 KEYWORDS = [
     "python",
 ]
@@ -59,6 +59,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.8",
 
     'License :: OSI Approved :: BSD License',
+
 ]
 
 PYTHON_REQUIRES = ">=3.6"
