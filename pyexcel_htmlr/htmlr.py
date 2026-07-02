@@ -1,11 +1,12 @@
 """
-    pyexcel_htmlr.htmlr
-    ~~~~~~~~~~~~~~~~~~~
-    html table reader using messytables
+pyexcel_htmlr.htmlr
+~~~~~~~~~~~~~~~~~~~
+html table reader using messytables
 
-    :copyright: (c) 2015-2020 by Onni Software Ltd & its contributors
-    :license: New BSD License
+:copyright: (c) 2015-2020 by Onni Software Ltd & its contributors
+:license: New BSD License
 """
+
 import codecs
 import xml.etree.ElementTree as etree
 

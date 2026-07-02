@@ -1,2 +1,2 @@
 pip freeze
-nosetests --with-coverage --cover-package pyexcel_htmlr --cover-package tests tests --with-doctest --doctest-extension=.rst README.rst docs/source pyexcel_htmlr
+coverage run -m --source=pyexcel_htmlr pytest --doctest-modules && coverage report --show-missing

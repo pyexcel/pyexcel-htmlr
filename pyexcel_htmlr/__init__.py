@@ -1,10 +1,11 @@
 """
-    pyexcel_htmlr
-    ~~~~~~~~~~~~~~~~~~~
-    Read html table using messytables
-    :copyright: (c) 2015-2017 by Onni Software Ltd & its contributors
-    :license: New BSD License
+pyexcel_htmlr
+~~~~~~~~~~~~~~~~~~~
+Read html table using messytables
+:copyright: (c) 2015-2017 by Onni Software Ltd & its contributors
+:license: New BSD License
 """
+
 from pyexcel_io.io import get_data as read_data
 from pyexcel_io.io import isstream
 from pyexcel_io.plugins import IOPluginInfoChainV2

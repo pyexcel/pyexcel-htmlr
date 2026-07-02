@@ -10,8 +10,10 @@ dependencies:
   - lxml
   - pyexcel-io>=0.6.2
 test_dependencies:
+  - pytest
   - pyexcel-text
   - pyexcel
+use_pytest: true
 description: "read tables in html file as excel data"
 python_requires: ">=3.6"
 min_python_version: "3.6"
