@@ -1,5 +1,3 @@
-pytest
-mock;python_version<"3"
 codecov
 coverage
 flake8
@@ -9,5 +7,6 @@ collective.checkdocs
 pygments
 moban
 moban_jinja2_github
+pytest
 pyexcel-text
 pyexcel
